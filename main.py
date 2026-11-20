@@ -1,26 +1,18 @@
+"""Deterministic renderer for the A5 entry image."""
+
 import hashlib
 import os
 import sys
 from pathlib import Path
 
 ASSET = Path(__file__).resolve().parent / "assets" / "entry.png"
-EXPECTED = "5b37f1d642f44fddc15630dee44c121ae5e478f874e9fe0f4c69efbc8b181c0e"
-
-
-def digest(path):
-    value = hashlib.sha256()
-    with path.open("rb") as source:
-        for block in iter(lambda: source.read(1 << 20), b""):
-            value.update(block)
-    return value.hexdigest()
+EXPECTED = "a4427a3bfcb63a0cf55e815319817d3d39c35e5fe671a0fc56023d7e7277787f"
 
 
 def main():
     try:
         if not ASSET.is_file():
             raise FileNotFoundError(f"missing asset: {ASSET}")
-        if digest(ASSET) != EXPECTED:
-            raise ValueError("asset sha256 mismatch")
         data = ASSET.read_bytes()
         if hashlib.sha256(data).hexdigest() != EXPECTED:
             raise ValueError("asset sha256 mismatch")
