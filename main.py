@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 ASSET = Path(__file__).resolve().parent / "assets" / "entry.png"
-EXPECTED = "7681e9ff32d86ddea8aba47ea5c3eeeb3ed92c3b558a62b82f8639da998d6fcd"
+EXPECTED = "aed4c7d7cd42de98e11e62bf2797a345808a051dd2ce07f87934c9dc263cda4d"
 
 
 def digest(path):
@@ -16,25 +16,22 @@ def digest(path):
 
 
 def main():
-    output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output")
-    output = output_dir / "entry.png"
     try:
         if not ASSET.is_file():
-            print(f"error: missing asset: {ASSET}", file=sys.stderr)
-            return 1
+            raise FileNotFoundError(f"missing asset: {ASSET}")
         if digest(ASSET) != EXPECTED:
-            print("error: asset sha256 mismatch", file=sys.stderr)
-            return 1
+            raise ValueError("asset sha256 mismatch")
         data = ASSET.read_bytes()
         if hashlib.sha256(data).hexdigest() != EXPECTED:
-            print("error: asset sha256 mismatch", file=sys.stderr)
-            return 1
+            raise ValueError("asset sha256 mismatch")
+        output_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output")
         output_dir.mkdir(parents=True, exist_ok=True)
+        output = output_dir / "entry.png"
         output.write_bytes(data)
-        print(output)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
+    print(output)
     return 0
 
 
