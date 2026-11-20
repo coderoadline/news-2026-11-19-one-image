@@ -1,4 +1,4 @@
-"""Deterministic renderer for the E6 entry image."""
+"""Deterministic renderer for the F1 entry image."""
 
 import hashlib
 import os
@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ASSET = Path(__file__).resolve().parent / "assets" / "entry.png"
-EXPECTED = "d45520476b9603bf27b8fd2e8943e318a18a398ca7008a1bdcb26e1a7c976c97"
+EXPECTED = "d994254a4f9873c5e18768dc533641b18f994e1c4ac636104a97039ab6492606"
 
 
 def main():
