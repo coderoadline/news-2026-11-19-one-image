@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 ASSET = Path(__file__).resolve().parent / "assets" / "entry.png"
-EXPECTED = "aed4c7d7cd42de98e11e62bf2797a345808a051dd2ce07f87934c9dc263cda4d"
+EXPECTED = "5b37f1d642f44fddc15630dee44c121ae5e478f874e9fe0f4c69efbc8b181c0e"
 
 
 def digest(path):
